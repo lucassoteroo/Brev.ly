@@ -1,0 +1,9 @@
+import { CreateLink } from "./components/create-link";
+
+export function App() {
+  return (
+    <main className="h-dvh flex flex-col items-center justify-center p-10">
+      <CreateLink></CreateLink>
+    </main>
+  )
+}
