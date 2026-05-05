@@ -4,10 +4,15 @@ import { MyLink } from "./components/my-link";
 
 export function App() {
   return (
-    <main className="h-dvh flex flex-col items-center justify-center p-10">
-      <LogoApp></LogoApp>
-      <CreateLink></CreateLink>
-      <MyLink></MyLink>
+    <main className="lg:max-w-342 lg:place-self-center h-dvh flex flex-col justify-center p-10">
+      <div className="self-center lg:self-start">
+        <LogoApp></LogoApp>
+      </div>
+      
+      <div className="lg:w-dvh lg:flex lg:flex-row">
+        <CreateLink></CreateLink>
+        <MyLink></MyLink>
+      </div>
     </main>
   )
 }
