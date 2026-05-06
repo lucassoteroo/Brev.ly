@@ -4,9 +4,11 @@ import { Button } from "primereact/button";
 
 interface Props {
     links: LinkData[];
+    onDelete: (short: string) => void;
+    onCopy: (short: string) => void;
 }
 
-export function MyLinkList({ links }: Props) {
+export function MyLinkList({ links, onDelete, onCopy }: Props) {
     if (!links || links.length === 0) {
         return (
             <div className="flex flex-col gap-3 items-center pt-4 pb-6">
@@ -26,10 +28,10 @@ export function MyLinkList({ links }: Props) {
                     </div>
                     <span className="font-normal text-xs text-right text-gray-500">{link.views} acessos</span>
                     <div className="flex flex-row items-center gap-1">
-                        <Button className="p-2 rounded-sm bg-gray-200">
+                        <Button className="p-2 rounded-sm bg-gray-200" onClick={() => onCopy(link.short)}>
                             <CopyIcon size={16} />
                         </Button>
-                        <Button className="p-2 rounded-sm bg-gray-200">
+                        <Button className="p-2 rounded-sm bg-gray-200" onClick={() => onDelete(link.short)}>
                             <TrashIcon size={16} />
                         </Button>
                     </div>

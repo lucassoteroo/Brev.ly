@@ -19,6 +19,20 @@ export function EmptyState() {
         ]);
     };
 
+    const handleDelete = (short: string) => {
+        setLinks(prev => prev.filter(link => link.short !== short));
+    };
+
+    const handleCopy = async (short: string) => {
+        try {
+            await navigator.clipboard.writeText(short);
+            // Opcional: feedback visual
+            // alert("Link copiado!");
+        } catch (e) {
+            alert("Erro ao copiar o link");
+        }
+    };
+
     return (
         <div>
             <div className="self-center lg:self-start">
@@ -26,7 +40,7 @@ export function EmptyState() {
             </div>
             <div className="lg:w-dvh flex flex-col lg:flex-row gap-5">
                 <CreateLink onCreate={addLink} />
-                <MyLink links={links} />
+                <MyLink links={links} onDelete={handleDelete} onCopy={handleCopy} />
             </div>
         </div>
     );
