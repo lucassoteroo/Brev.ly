@@ -4,8 +4,13 @@ import { CreateLinkButton } from "./create-link-button";
 import { CreateLinkHeader } from "./create-link-header";
 import { CreateOriginalLink } from "./create-original-link";
 import { CreateShortLink } from "./create-short-link";
+import type { LinkData } from "./empty-state";
 
-export function CreateLink() {
+interface Props {
+    onCreate: (link: Omit<LinkData, "views">) => void;
+}
+
+export function CreateLink({ onCreate }: Props) {
     const [originalLink, setOriginalLink] = useState("");
     const [shortLink, setShortLink] = useState("");
     const [originalLinkError, setOriginalLinkError] = useState("");
@@ -26,8 +31,9 @@ export function CreateLink() {
             setShortLinkError("");
         }
         if (hasError) return;
-        // Aqui você pode adicionar a lógica de criação do link
-        alert("Link criado com sucesso!");
+        onCreate({ short: shortLink, original: originalLink });
+        setOriginalLink("");
+        setShortLink("");
     };
 
     return (
