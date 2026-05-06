@@ -8,15 +8,28 @@ interface Props {
 }
 
 export function CreateShortLink({ value, onChange, error }: Props) {
+    const prefix = "brev.ly/";
+    // Mostra o valor sempre com o prefixo
+    const displayValue = prefix + (value.startsWith(prefix) ? value.slice(prefix.length) : value);
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        let inputValue = e.target.value;
+        // Garante que o prefixo não seja removido
+        if (!inputValue.startsWith(prefix)) {
+            inputValue = prefix;
+        }
+        // Passa para o estado apenas o que vem depois do prefixo
+        onChange(inputValue.slice(prefix.length));
+    };
+
     return (
         <div className="flex flex-col gap-2">
             <h3 className="font-normal text-[10px] text-gray-500">LINK ENCURTADO</h3>
             <InputText
                 keyfilter="alpha"
-                placeholder="brev.ly/"
                 className="w-full flex items-center px-4 py-4 border border-gray-300 rounded-lg gap-2 outline-none"
-                value={value}
-                onChange={e => onChange(e.target.value)}
+                value={displayValue}
+                onChange={handleChange}
             />
             {error && 
                 <div className="flex flex-row items-center gap-1">
