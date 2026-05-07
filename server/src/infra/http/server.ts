@@ -1,7 +1,10 @@
 import fastifyCors from "@fastify/cors";
 import fastify from "fastify";
-import { hasZodFastifySchemaValidationErrors, serializerCompiler, validatorCompiler } from "fastify-type-provider-zod";
+import { hasZodFastifySchemaValidationErrors, jsonSchemaTransform, serializerCompiler, validatorCompiler } from "fastify-type-provider-zod";
 import { UploadLinkRoute } from "./routes/upload-link";
+import fastifyMultipart from "@fastify/multipart";
+import fastifySwagger from "@fastify/swagger";
+import fastifySwaggerUi from "@fastify/swagger-ui";
 
 const server = fastify();
 
@@ -24,6 +27,21 @@ server.setErrorHandler((error, request, reply) => {
 })
 
 server.register(fastifyCors, { origin: "*" })
+
+server.register(fastifyMultipart)
+server.register(fastifySwagger, {
+    openapi: {
+        info: {
+            title: "Brevly API",
+            version: "1.0.0",
+        },
+    },
+    transform: jsonSchemaTransform,
+})
+
+server.register(fastifySwaggerUi, {
+    routePrefix: "/docs",
+})
 
 server.register(UploadLinkRoute)
 
