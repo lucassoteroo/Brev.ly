@@ -1,6 +1,7 @@
 import fastifyCors from "@fastify/cors";
 import fastify from "fastify";
 import { hasZodFastifySchemaValidationErrors, serializerCompiler, validatorCompiler } from "fastify-type-provider-zod";
+import { UploadLinkRoute } from "./routes/upload-link";
 
 const server = fastify();
 
@@ -23,6 +24,8 @@ server.setErrorHandler((error, request, reply) => {
 })
 
 server.register(fastifyCors, { origin: "*" })
+
+server.register(UploadLinkRoute)
 
 server.listen({ port: 3333, host: '0.0.0.0' }).then(() => {
     console.log("HTTP server running")
