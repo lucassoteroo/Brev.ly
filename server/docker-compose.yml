@@ -2,10 +2,10 @@ services:
   pg:
     image: bitnami/postgresql:latest
     ports:
-    - "5432:5432"
+      - "5432:5432"
     environment:
-    - POSTGRESQL_USER=docker
-    - POSTGRESQL_PASSWORD=docker
-    - POSTGRESQL_DB=upload
+      - POSTGRESQL_USER=docker
+      - POSTGRESQL_PASSWORD=docker
+      - POSTGRESQL_DATABASE=link
     volumes:
-    - './docker:/docker-endtrypoint-initdb.d'
+      - './docker:/docker-entrypoint-initdb.d'
