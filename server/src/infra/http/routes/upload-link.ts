@@ -1,3 +1,6 @@
+import { uploadLink } from "@/app/useCases/upload-link";
+import { db } from "@/infra/db";
+import { schema } from "@/infra/db/schemas";
 import { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
 import z from "zod";
 
@@ -10,25 +13,30 @@ export const UploadLinkRoute: FastifyPluginAsyncZod = async server => {
                 shortLink: z.string()
             }),
             response: {
-                201: z.object({
-                    message: z.string(),
-                    data: z.object({
-                        originalLink: z.string(),
-                        shortLink: z.string()
-                    })
-                }),
-                400: z.object({
-                    message: z.string().describe('Upload already exists'),
+                201: z.object({ message: z.string() }),
+                400: z.object({ message: z.string() }),
+                409: z.object({
+                    message: z.string().describe('Link already exists'),
                 })
             }
         }
     }, async (request, reply) => {
-        return reply.status(201).send({
-            message: "Link uploaded successfully",
-            data: {
-                originalLink: 'Link original', // TODO: Implementar lógica para salvar o link original
-                shortLink: 'Link encurtado' // TODO: Implementar lógica para gerar o link curto
-            }
+        const originalLink = request.body.originalLink
+        const shortLink = request.body.shortLink
+
+        if (!originalLink) {
+            return reply.status(400).send({ message: 'Original Link is required' })
+        }
+        
+        if (!shortLink) {
+            return reply.status(400).send({ message: 'Short Link is required' })
+        }
+
+        await uploadLink({
+            originalLink: request.body.originalLink,
+            shortLink:request.body.shortLink
         })
+
+        return reply.status(201).send({ message: "Link uploaded successfully" })
     })
 }
