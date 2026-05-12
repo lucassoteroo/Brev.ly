@@ -6,9 +6,9 @@ import z from "zod";
 export const UpdateHitsRoute: FastifyPluginAsyncZod = async server => {
     server.put("/links/update", {
         schema: {
-            summary: "Delete link",
+            summary: "Update link",
             body: z.object({
-                short_link: z.string().optional(),
+                shortLink: z.string().optional(),
             }),
             response: {
                 201: z.object({ message: z.string() }),
@@ -17,9 +17,9 @@ export const UpdateHitsRoute: FastifyPluginAsyncZod = async server => {
             }
         }
     }, async (request: any, reply) => {
-        const { short_link } = request.body
-
-        const result = await updateHits({ short_link })
+        const shortLink = request.body.shortLink
+        
+        const result = await updateHits({ shortLink })
 
         if (isRight(result)) {
             return reply.status(201).send({ message: result.right.message })

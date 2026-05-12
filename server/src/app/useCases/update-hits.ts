@@ -7,19 +7,19 @@ import { ShortLinkNotFounded } from "../erros/short-link-not-founded";
 import { updateLinkHitsInStorage } from "@/infra/storage/update-hits";
 
 const updateHitsInput = z.object({
-    short_link: z.string().optional(),
+    shortLink: z.string(),
 })
 
 type UpdateHitsInput = z.input<typeof updateHitsInput>
 
 export async function updateHits(input: UpdateHitsInput): Promise<Either<ShortLinkNotFounded, { message: string }>> {
-    const { short_link } = updateHitsInput.parse(input)
+    const { shortLink } = updateHitsInput.parse(input)
 
     const result = await db
        .select()
        .from(schema.links)
        .where(
-          short_link ? ilike(schema.links.shortLink, `%${short_link}%`) : undefined
+          shortLink ? ilike(schema.links.shortLink, `%${shortLink}%`) : undefined
        )
 
     if (result.length === 0) {
