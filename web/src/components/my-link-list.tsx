@@ -6,9 +6,10 @@ interface Props {
     links: LinkData[];
     onDelete: (short: string) => void;
     onCopy: (short: string) => void;
+    onAccess: (short: string) => void;
 }
 
-export function MyLinkList({ links, onDelete, onCopy }: Props) {
+export function MyLinkList({ links, onDelete, onCopy, onAccess }: Props) {
     if (!links || links.length === 0) {
         return (
             <div className="flex flex-col gap-3 items-center pt-4 pb-6">
@@ -22,8 +23,10 @@ export function MyLinkList({ links, onDelete, onCopy }: Props) {
         <div className="flex flex-col gap-3 items-center pt-4 pb-6">
             {links.map((link, idx) => (
                 <div key={idx} className="w-full flex flex-row items-center justify-between py-0.5 gap-4">
-                    <div className="w-70">
-                        <p className="font-semibold text-sm text-[#2C46B1]">{link.short}</p>
+                    <div className="flex flex-col w-70">
+                        <Button onClick={() => onAccess(link.short)}>
+                            <p className="font-semibold text-sm text-[#2C46B1]">{link.short}</p>
+                        </Button>
                         <span className="font-normal text-xs text-[#4D505C]">{link.original}</span>
                     </div>
                     <span className="font-normal text-xs text-right text-gray-500">{link.views} acessos</span>
