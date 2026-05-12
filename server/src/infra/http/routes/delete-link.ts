@@ -4,7 +4,7 @@ import { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
 import z from "zod";
 
 export const DeleteLinkRoute: FastifyPluginAsyncZod = async server => {
-    server.post("/links/delete/:short_link", {
+    server.delete("/links/delete/:short_link", {
         schema: {
             summary: "Delete link",
             response: {
