@@ -1,13 +1,14 @@
 import fastifyCors from "@fastify/cors";
 import fastify from "fastify";
 import { hasZodFastifySchemaValidationErrors, jsonSchemaTransform, serializerCompiler, validatorCompiler } from "fastify-type-provider-zod";
-import { UploadLinkRoute } from "./routes/upload-link";
 import fastifyMultipart from "@fastify/multipart";
 import fastifySwagger from "@fastify/swagger";
 import fastifySwaggerUi from "@fastify/swagger-ui";
 import { GetLinksRoute } from "./routes/get-links";
 import { ExportLinksRoute } from "./routes/export-links";
 import { DeleteLinkRoute } from "./routes/delete-link";
+import { UploadLinkRoute } from "./routes/upload-link";
+import { UpdateHitsRoute } from "./routes/update-hits";
 
 const server = fastify();
 
@@ -50,6 +51,7 @@ server.register(UploadLinkRoute)
 server.register(GetLinksRoute)
 server.register(ExportLinksRoute)
 server.register(DeleteLinkRoute)
+server.register(UpdateHitsRoute)
 
 server.listen({ port: 3333, host: '0.0.0.0' }).then(() => {
     console.log("HTTP server running")
