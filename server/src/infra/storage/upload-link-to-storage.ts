@@ -40,11 +40,6 @@ export async function uploadLinkToStorage(input: UploadLinkToStorageInput) {
         linksArray = []
     }
     
-    // Verifica se já existe short_link igual
-    const alreadyExists = linksArray.some(link => link.short_link === shortLink)
-    if (alreadyExists) {
-        throw new ShortLinkAlreadyExists(shortLink)
-    }
     linksArray.push(newLink)
 
     const putCmd = new PutObjectCommand({

@@ -1,5 +1,5 @@
 import { uploadLink } from "@/app/useCases/upload-link";
-import { isRight } from "@/infra/shared/either";
+import { isRight, isLeft } from "@/infra/shared/either";
 import { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
 import z from "zod";
 
@@ -31,20 +31,19 @@ export const UploadLinkRoute: FastifyPluginAsyncZod = async server => {
             return reply.status(400).send({ message: 'Short Link is required' })
         }
 
-        try {
-            const result = await uploadLink({
-                originalLink: request.body.originalLink,
-                shortLink: request.body.shortLink
-            })
+        const result = await uploadLink({
+            originalLink: request.body.originalLink,
+            shortLink: request.body.shortLink
+        })
 
-            if (isRight(result)) {
-                return reply.status(201).send({ message: "Link uploaded successfully" })
-            }
-        } catch (error: any) {
-            if (error?.name === "ShortLinkAlreadyExists") {
-                return reply.status(409).send({ message: error.message })
-            }
-            return reply.status(400).send({ message: error?.message || "Erro ao fazer upload do link" })
+        if (isRight(result)) {
+            return reply.status(201).send({ message: "Link uploaded successfully" })
         }
+
+        if (isLeft(result)) {
+            return reply.status(409).send({ message: result.left.message })
+        }
+
+        return reply.status(400).send({ message: "Erro ao fazer upload do link" })
     })
 }
