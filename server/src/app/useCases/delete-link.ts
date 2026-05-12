@@ -1,0 +1,36 @@
+import { db } from "@/infra/db";
+import { schema } from "@/infra/db/schemas";
+import { Either, makeLeft, makeRight } from "@/infra/shared/either";
+import { eq, ilike } from "drizzle-orm";
+import z from "zod";
+import { ShortLinkNotFounded } from "../erros/short-link-not-founded";
+import { deleteLinkFromStorage } from "@/infra/storage/delete-link";
+
+const deleteLinkInput = z.object({
+    short_link: z.string().optional(),
+})
+
+type DeleteLinkInput = z.input<typeof deleteLinkInput>
+
+export async function deleteLink(input: DeleteLinkInput): Promise<Either<ShortLinkNotFounded, { message: string }>> {
+    const { short_link } = deleteLinkInput.parse(input)
+
+    const result = await db
+       .select()
+       .from(schema.links)
+       .where(
+          short_link ? ilike(schema.links.shortLink, `%${short_link}%`) : undefined
+       )
+
+    if (result.length === 0) {
+        return makeLeft(new ShortLinkNotFounded());
+    }
+
+    await deleteLinkFromStorage(result[0].shortLink);
+
+    await db
+        .delete(schema.links)
+        .where(eq(schema.links.id, result[0].id));
+
+    return makeRight({ message: 'Link deleted successfully' })
+}
