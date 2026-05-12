@@ -5,9 +5,10 @@ interface Props {
     value: string;
     onChange: (value: string) => void;
     error?: string;
+    disabled?: boolean;
 }
 
-export function CreateShortLink({ value, onChange, error }: Props) {
+export function CreateShortLink({ value, onChange, error, disabled }: Props) {
     const prefix = "brev.ly/";
     // Mostra o valor sempre com o prefixo
     const displayValue = prefix + (value.startsWith(prefix) ? value.slice(prefix.length) : value);
@@ -30,6 +31,7 @@ export function CreateShortLink({ value, onChange, error }: Props) {
                 className="w-full flex items-center px-4 py-4 border border-gray-300 rounded-lg gap-2 outline-none"
                 value={displayValue}
                 onChange={handleChange}
+                disabled={disabled}
             />
             {error && 
                 <div className="flex flex-row items-center gap-1">

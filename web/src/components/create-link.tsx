@@ -8,9 +8,10 @@ import type { LinkData } from "./empty-state";
 
 interface Props {
     onCreate: (link: Omit<LinkData, "views">) => void;
+    loading?: boolean;
 }
 
-export function CreateLink({ onCreate }: Props) {
+export function CreateLink({ onCreate, loading }: Props) {
     const [originalLink, setOriginalLink] = useState("");
     const [shortLink, setShortLink] = useState("");
     const [originalLinkError, setOriginalLinkError] = useState("");
@@ -41,9 +42,9 @@ export function CreateLink({ onCreate }: Props) {
             <CreateLinkHeader />
 
             <div className="flex flex-col gap-4">
-                <CreateOriginalLink value={originalLink} onChange={setOriginalLink} error={originalLinkError} />
-                <CreateShortLink value={shortLink} onChange={setShortLink} error={shortLinkError} />
-                <CreateLinkButton onClick={handleCreate} />
+                <CreateOriginalLink value={originalLink} onChange={setOriginalLink} error={originalLinkError} disabled={loading} />
+                <CreateShortLink value={shortLink} onChange={setShortLink} error={shortLinkError} disabled={loading} />
+                <CreateLinkButton onClick={handleCreate} disabled={loading} />
             </div>
         </div>
     );

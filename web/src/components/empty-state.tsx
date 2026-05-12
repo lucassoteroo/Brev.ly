@@ -14,11 +14,27 @@ export function EmptyState() {
     const [isLoading, setIsLoading] = useState(true);
 
     // FUNÇÕES QUE ENVOLVEM O CREATE
-    const addLink = (link: Omit<LinkData, "views">) => {
-        setLinks(prev => [
-            { ...link, views: 0 },
-            ...prev
-        ]);
+    const addLink = async (link: Omit<LinkData, "views">) => {
+        try {
+            setIsLoading(true);
+            
+            await linkService.create(link.original, link.short)
+
+            const data = await linkService.getAll()
+
+            const formattedLinks = data.map((item: any) => ({
+                short: item.shortLink || item.short_link,
+                original: item.originalLink || item.original_link,
+                views: item.hits || 0
+            }));
+
+            setLinks(formattedLinks)
+
+        } catch(error) {
+            console.error(error)
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     // FUNÇÕES QUE ENVOLVEM O LIST
