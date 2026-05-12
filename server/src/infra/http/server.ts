@@ -6,6 +6,7 @@ import fastifyMultipart from "@fastify/multipart";
 import fastifySwagger from "@fastify/swagger";
 import fastifySwaggerUi from "@fastify/swagger-ui";
 import { GetLinksRoute } from "./routes/get-links";
+import { ExportLinksRoute } from "./routes/export-links";
 
 const server = fastify();
 
@@ -46,6 +47,7 @@ server.register(fastifySwaggerUi, {
 
 server.register(UploadLinkRoute)
 server.register(GetLinksRoute)
+server.register(ExportLinksRoute)
 
 server.listen({ port: 3333, host: '0.0.0.0' }).then(() => {
     console.log("HTTP server running")
