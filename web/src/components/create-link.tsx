@@ -19,19 +19,31 @@ export function CreateLink({ onCreate, loading }: Props) {
 
     const handleCreate = () => {
         let hasError = false;
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const shortLinkRegex = /^[a-z0-0-]+$/;
+
         if (!originalLink) {
+            setOriginalLinkError("Informe uma url válida.");
+            hasError = true;
+        } else if (!emailRegex.test(originalLink)) {
             setOriginalLinkError("Informe uma url válida.");
             hasError = true;
         } else {
             setOriginalLinkError("");
         }
+
         if (!shortLink) {
+            setShortLinkError("Informe uma url minúscula e sem espaço/caracter especial.");
+            hasError = true;
+        } else if (!shortLinkRegex.test(shortLink)) {
             setShortLinkError("Informe uma url minúscula e sem espaço/caracter especial.");
             hasError = true;
         } else {
             setShortLinkError("");
         }
+
         if (hasError) return;
+
         onCreate({ short: shortLink, original: originalLink });
         setOriginalLink("");
         setShortLink("");
