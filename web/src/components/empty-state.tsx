@@ -156,7 +156,7 @@ export function EmptyState() {
                 <LogoApp />
             </div>
             <div className="lg:w-dvh flex flex-col lg:flex-row gap-5">
-                <CreateLink onCreate={addLink} />
+                <CreateLink onCreate={addLink} isLoading={isLoading} />
                 <MyLink links={links} onDelete={handleDelete} onCopy={handleCopy} onAccess={handleAccess} onExport={handleExport} isLoading={isLoading} />
             </div>
         </div>

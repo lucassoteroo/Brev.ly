@@ -8,10 +8,10 @@ import type { LinkData } from "./empty-state";
 
 interface Props {
     onCreate: (link: Omit<LinkData, "views">) => void;
-    loading?: boolean;
+    isLoading?: boolean;
 }
 
-export function CreateLink({ onCreate, loading }: Props) {
+export function CreateLink({ onCreate, isLoading }: Props) {
     const [originalLink, setOriginalLink] = useState("");
     const [shortLink, setShortLink] = useState("");
     const [originalLinkError, setOriginalLinkError] = useState("");
@@ -19,13 +19,13 @@ export function CreateLink({ onCreate, loading }: Props) {
 
     const handleCreate = () => {
         let hasError = false;
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        const shortLinkRegex = /^[a-z0-0-]+$/;
+        const urlRegex = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([\/\w .-]*)*\/?$/;
+        const shortLinkRegex = /^[a-z0-9-]+$/;
 
         if (!originalLink) {
             setOriginalLinkError("Informe uma url válida.");
             hasError = true;
-        } else if (!emailRegex.test(originalLink)) {
+        } else if (!urlRegex.test(originalLink)) {
             setOriginalLinkError("Informe uma url válida.");
             hasError = true;
         } else {
@@ -54,9 +54,9 @@ export function CreateLink({ onCreate, loading }: Props) {
             <CreateLinkHeader />
 
             <div className="flex flex-col gap-4">
-                <CreateOriginalLink value={originalLink} onChange={setOriginalLink} error={originalLinkError} disabled={loading} />
-                <CreateShortLink value={shortLink} onChange={setShortLink} error={shortLinkError} disabled={loading} />
-                <CreateLinkButton onClick={handleCreate} disabled={loading} />
+                <CreateOriginalLink value={originalLink} onChange={setOriginalLink} error={originalLinkError} disabled={isLoading} />
+                <CreateShortLink value={shortLink} onChange={setShortLink} error={shortLinkError} disabled={isLoading} />
+                <CreateLinkButton onClick={handleCreate} disabled={isLoading} />
             </div>
         </div>
     );
