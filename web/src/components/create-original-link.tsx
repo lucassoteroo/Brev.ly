@@ -22,8 +22,8 @@ export function CreateOriginalLink({ value, onChange, error, disabled }: Props) 
             />
             {error && 
                 <div className="flex flex-row items-center gap-1">
-                    <WarningIcon size={12} className="text-red-500" />
-                    <span className="text-red-500 text-xs mt-1">{error}</span>
+                    <WarningIcon size={10} className="text-red-500" />
+                    <span className="text-red-500 text-[10px] mt-1">{error}</span>
                 </div>
             }
         </div>

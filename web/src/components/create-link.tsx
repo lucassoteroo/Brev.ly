@@ -20,13 +20,13 @@ export function CreateLink({ onCreate, loading }: Props) {
     const handleCreate = () => {
         let hasError = false;
         if (!originalLink) {
-            setOriginalLinkError("Preencha o link original.");
+            setOriginalLinkError("Informe uma url válida.");
             hasError = true;
         } else {
             setOriginalLinkError("");
         }
         if (!shortLink) {
-            setShortLinkError("Preencha o link encurtado.");
+            setShortLinkError("Informe uma url minúscula e sem espaço/caracter especial.");
             hasError = true;
         } else {
             setShortLinkError("");
