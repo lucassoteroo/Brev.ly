@@ -1,6 +1,7 @@
 import { CopyIcon, TrashIcon, LinkIcon } from "@phosphor-icons/react";
 import type { LinkData } from "./empty-state";
 import { Button } from "primereact/button";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
     links: LinkData[];
@@ -11,6 +12,7 @@ interface Props {
 }
 
 export function MyLinkList({ links, onDelete, onCopy, onAccess, isLoading }: Props) {
+    const navigate = useNavigate();
     if (isLoading) {
         return (
             <div className="flex flex-col gap-3 items-center pt-4 pb-6 w-full">
@@ -36,7 +38,7 @@ export function MyLinkList({ links, onDelete, onCopy, onAccess, isLoading }: Pro
             {links.map((link, idx) => (
                 <div key={idx} className="w-full flex flex-row items-center justify-between py-0.5 gap-4">
                     <div className="flex flex-col w-70">
-                        <Button onClick={() => onAccess(link.short)}>
+                        <Button onClick={() => navigate(`/r/${link.short}`)}>
                             <p className="font-semibold text-sm text-[#2C46B1]">{link.short}</p>
                         </Button>
                         <span className="font-normal text-xs text-[#4D505C]">{link.original}</span>

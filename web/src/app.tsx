@@ -8,18 +8,11 @@ export function App() {
     <main className="lg:max-w-342 lg:place-self-center h-dvh flex flex-col justify-center p-10">
       <BrowserRouter>
         <Routes>
-          {/* Rotas normais */}
           <Route path="/" element={<EmptyState />} />
-          <Route path="/redirect" element={<RedirectPage />} />
-
-          {/* O equivalente ao seu "if url == 'not-found'" */}
-          <Route path="/not-found" element={<Error404 />} />
-
-          {/* Captura QUALQUER coisa digitada que não exista acima */}
-          <Route path="*" element={<EmptyState />} />
+          <Route path="/r/:short" element={<RedirectPage />} />
+          <Route path="*" element={<Error404 />} />
         </Routes>
       </BrowserRouter>
     </main>
-
   )
 }
