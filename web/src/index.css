@@ -44,3 +44,9 @@
 
   --feedback-danger: #B12C4D
 }
+
+button:focus,
+button:focus-visible {
+    outline: none !important;
+    box-shadow: none !important;
+}

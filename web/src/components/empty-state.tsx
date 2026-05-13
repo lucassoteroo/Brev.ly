@@ -1,8 +1,10 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { CreateLink } from "./create-link";
 import { LogoApp } from "./logo-app";
 import { MyLink } from "./my-link";
 import { linkService } from "../service/api";
+import { Toast } from 'primereact/toast';
+
 export interface LinkData {
     short: string;
     original: string;
@@ -12,6 +14,16 @@ export interface LinkData {
 export function EmptyState() {
     const [links, setLinks] = useState<LinkData[]>([]);
     const [isLoading, setIsLoading] = useState(true);
+    const toast = useRef<Toast>(null);
+
+    const showError = (message: string) => {
+        toast.current?.show({
+            severity: 'error',
+            summary: 'Erro na Operação',
+            detail: message,
+            life: 4000
+        });
+    };
 
     // FUNÇÕES QUE ENVOLVEM O CREATE
     const addLink = async (link: Omit<LinkData, "views">) => {
@@ -30,8 +42,8 @@ export function EmptyState() {
 
             setLinks(formattedLinks)
 
-        } catch(error) {
-            console.error(error)
+        } catch(error: any) {
+            showError(error.response.data.message)
         } finally {
             setIsLoading(false);
         }
@@ -50,8 +62,8 @@ export function EmptyState() {
             }));
 
             setLinks(formattedLinks)
-        } catch (error) {
-            console.error(error)
+        } catch (error: any) {
+            showError(error.response.data.message)
         } finally {
             setIsLoading(false)
         }
@@ -77,8 +89,8 @@ export function EmptyState() {
             setIsLoading(true)
             await linkService.update(short)
             await loadLinks();
-        } catch(error) {
-            console.error(error)
+        } catch(error: any) {
+            showError(error.response.data.message)
         } finally {
             setIsLoading(false)
         }
@@ -89,8 +101,8 @@ export function EmptyState() {
             setIsLoading(true)
             await linkService.delete(short)
             await loadLinks();
-        } catch (error) {
-            console.error(error)
+        } catch (error: any) {
+            showError(error.response.data.message)
         } finally {
             setIsLoading(false)
         }
@@ -109,8 +121,8 @@ export function EmptyState() {
 
             // Opcional: feedback visual
             alert(`Link ${short} copiado!`);
-        } catch (error) {
-            console.error(error)
+        } catch (error: any) {
+            showError(error.response.data.message)
         }
     };
 
@@ -124,13 +136,22 @@ export function EmptyState() {
             document.body.appendChild(link);
             link.click();
             link.remove();
-        } catch(error) {
-            console.error(error)
+        } catch(error: any) {
+            showError(error.response.data.message)
         }
     }
 
     return (
         <div>
+            <Toast 
+                ref={toast} 
+                pt={{
+                    content: { 
+                        className: 'flex items-center p-5 gap-4 bg-white border-none shadow-xl' 
+                    }
+                }} 
+            />
+
             <div className="self-center lg:self-start">
                 <LogoApp />
             </div>
