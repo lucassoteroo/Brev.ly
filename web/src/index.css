@@ -1,3 +1,29 @@
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.spinner {
+  display: inline-block;
+  border-width: 2px;
+  border-style: solid;
+  border-radius: 9999px;
+  border-top-color: var(--blue-base, #2C46B1);
+  border-right-color: var(--gray-300, #CDCFD5);
+  border-bottom-color: var(--gray-300, #CDCFD5);
+  border-left-color: var(--gray-300, #CDCFD5);
+  width: 1rem;
+  height: 1rem;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes loading-bar {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.animate-loading-bar {
+  animation: loading-bar 1.2s cubic-bezier(0.4,0,0.2,1) infinite;
+}
 @import "tailwindcss";
 
 @theme {

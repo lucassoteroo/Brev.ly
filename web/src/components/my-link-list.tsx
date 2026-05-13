@@ -4,12 +4,24 @@ import { Button } from "primereact/button";
 
 interface Props {
     links: LinkData[];
+    isLoading: boolean;
     onDelete: (short: string) => void;
     onCopy: (short: string) => void;
     onAccess: (short: string) => void;
 }
 
-export function MyLinkList({ links, onDelete, onCopy, onAccess }: Props) {
+export function MyLinkList({ links, onDelete, onCopy, onAccess, isLoading }: Props) {
+    if (isLoading) {
+        return (
+            <div className="flex flex-col gap-3 items-center pt-4 pb-6 w-full">
+                <div className="flex flex-row items-center gap-2 mt-3">
+                    <span className="spinner border-2 border-t-[#2C46B1] border-gray-300 rounded-full w-4 h-4 animate-spin"></span>
+                    <span className="font-normal text-[10px] text-center uppercase text-gray-500">Carregando itens...</span>
+                </div>
+            </div>
+        )
+    }
+
     if (!links || links.length === 0) {
         return (
             <div className="flex flex-col gap-3 items-center pt-4 pb-6">

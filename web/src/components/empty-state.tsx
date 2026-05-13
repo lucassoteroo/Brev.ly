@@ -76,16 +76,7 @@ export function EmptyState() {
         try {
             setIsLoading(true)
             await linkService.update(short)
-
-            const data = await linkService.getAll()
-
-            const formattedLinks = data.map((item: any) => ({
-                short: item.shortLink || item.short_link,
-                original: item.originalLink || item.original_link,
-                views: item.hits || 0
-            }));
-            
-            setLinks(formattedLinks)
+            await loadLinks();
         } catch(error) {
             console.error(error)
         } finally {
@@ -97,16 +88,7 @@ export function EmptyState() {
         try {
             setIsLoading(true)
             await linkService.delete(short)
-            
-            const data = await linkService.getAll()
-
-            const formattedLinks = data.map((item: any) => ({
-                short: item.shortLink || item.short_link,
-                original: item.originalLink || item.original_link,
-                views: item.hits || 0
-            }));
-
-            setLinks(formattedLinks)
+            await loadLinks();
         } catch (error) {
             console.error(error)
         } finally {
@@ -154,7 +136,7 @@ export function EmptyState() {
             </div>
             <div className="lg:w-dvh flex flex-col lg:flex-row gap-5">
                 <CreateLink onCreate={addLink} />
-                <MyLink links={links} onDelete={handleDelete} onCopy={handleCopy} onAccess={handleAccess} onExport={handleExport} />
+                <MyLink links={links} onDelete={handleDelete} onCopy={handleCopy} onAccess={handleAccess} onExport={handleExport} isLoading={isLoading} />
             </div>
         </div>
     );
