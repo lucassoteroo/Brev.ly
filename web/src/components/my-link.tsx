@@ -13,7 +13,7 @@ interface Props {
 
 export function MyLink({ links, onDelete, onCopy, onAccess, onExport, isLoading }: Props) {
     return (
-        <div className="relative max-w-91.5 lg:max-w-145 w-full flex flex-col bg-gray-100 rounded-lg p-6 gap-5">
+        <div className="relative max-w-91.5 max-h-88.25 lg:max-w-145 w-full flex flex-col bg-gray-100 rounded-lg p-6 gap-5 overflow-y-auto [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-slate-300 [&::-webkit-scrollbar-thumb]:rounded-full">
             {isLoading && (
                 <div className="absolute top-0 left-0 w-full h-1 bg-gray-200 overflow-hidden rounded-t-lg">
                     <div className="loading-bar h-full bg-[#2C46B1] animate-loading-bar" />

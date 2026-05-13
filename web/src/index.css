@@ -50,3 +50,13 @@ button:focus-visible {
     outline: none !important;
     box-shadow: none !important;
 }
+
+*::-webkit-scrollbar-track {
+  background: transparent; /* Fundo invisível para não poluir o card */
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #2C46B1;; /* Cor suave (gray-300) */
+  border-radius: 20px;       /* Deixa arredondada */
+  border: 1px solid transparent; /* Espaçamento interno falso */
+}
